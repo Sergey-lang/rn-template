@@ -2,6 +2,7 @@ import {FlatList, StyleSheet, Text, TouchableOpacity} from "react-native";
 import * as React from "react";
 import {NavigationProp, ParamListBase, useNavigation} from "@react-navigation/native";
 import {AppRoutes} from "../../../navigation/types.ts";
+import {getFontFamily} from "../../../tokens/fonts.ts";
 
 const DATA: Array<{ id: string, title: string }> = [
     {
@@ -66,5 +67,6 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 32,
+        fontFamily: getFontFamily('normal'),
     },
 });
