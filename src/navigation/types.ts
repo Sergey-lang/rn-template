@@ -5,18 +5,18 @@ export type RootStackParamList = {
 
 export type MainStackParamList = {
   Profile: undefined;
-  Peoples: undefined;
+  People: undefined;
 };
 
 export type PeopleStackParamList = {
-  Peoples: undefined;
-  People: { id: string };
+  People: undefined;
+  PeopleItem: { id: string };
 };
 
 export enum AppRoutes {
   PROFILE = 'Profile',
-  PEOPLES = 'Peoples',
   PEOPLE = 'People',
+  PEOPLE_ITEM = 'PeopleItem',
   LOGIN = 'Login',
 }
 
