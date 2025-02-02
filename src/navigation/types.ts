@@ -10,13 +10,13 @@ export type MainStackParamList = {
 
 export type PeopleStackParamList = {
   People: undefined;
-  PeopleItem: { id: string };
+  Personal_Page: { id: number };
 };
 
 export enum AppRoutes {
   PROFILE = 'Profile',
   PEOPLE = 'People',
-  PEOPLE_ITEM = 'PeopleItem',
+  PERSONAL_PAGE = 'Personal_Page',
   LOGIN = 'Login',
 }
 

@@ -1,38 +1,52 @@
-import {View, Text, StyleSheet, TouchableOpacity, Image} from "react-native";
+import {View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator} from "react-native";
 import {Colors} from "../../../tokens/colors.ts";
+import {observer} from "mobx-react-lite";
+import profileStore from "./profile-store.ts";
+import * as React from "react";
+import {useEffect} from "react";
+import {useTheme} from "../../../provider/theme-provider/CustomThemeProvider.tsx";
+import {TextInfo} from "../../../components/Empty/TextInfo.tsx";
+import {Container} from "../../../components/Container/Container.tsx";
 
-export const ProfileScreen = () => {
+const avatarURl = 'https://randomuser.me/api/portraits/men/45.jpg';
 
-    const user = {
-        avatar: 'https://randomuser.me/api/portraits/men/45.jpg', // Фейковый аватар
-        name: 'Alex Ivanov',
-        email: 'alex.ivanov@example.com',
-        phone: '+7 (999) 123-45-67',
-        location: 'Moscow, Russia',
+export const ProfileScreen = observer(() => {
+    const {theme, setTheme} = useTheme();
+    const {profile, getProfileAction, loading, error} = profileStore;
+
+    useEffect(() => {
+        getProfileAction(1);
+    }, []);
+
+    const handleToggleTheme = () => {
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
     };
 
+    if (error) {
+        return <TextInfo>{error}</TextInfo>
+    }
+
     return (
-        <View style={styles.container}>
-            <Image source={{ uri: user.avatar }} style={styles.avatar} />
-            <Text style={styles.name}>{user.name}</Text>
-            <Text style={styles.info}>{user.email}</Text>
-            <Text style={styles.info}>{user.phone}</Text>
-            <Text style={styles.info}>{user.location}</Text>
-            <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>Edit Profile</Text>
-            </TouchableOpacity>
-        </View>
-    );
-};
+        <Container type="center">
+            {loading ? <ActivityIndicator size="large"/> : (
+                <>
+                    <Image source={{uri: avatarURl}} style={styles.avatar}/>
+                    <Text style={styles.name}>{profile?.name}</Text>
+                    <Text style={styles.info}>{profile?.website}</Text>
+                    <Text style={styles.info}>{profile?.phone}</Text>
+                    <TouchableOpacity style={styles.button} onPress={handleToggleTheme}>
+                        <Text style={styles.buttonText}>
+                            Switch to {theme === 'light' ? 'Dark' : 'Light'} Theme
+                        </Text>
+                    </TouchableOpacity>
+                </>
+            )}
+        </Container>
+    )
+});
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: Colors.white,
-        padding: 20,
-    },
     avatar: {
         width: 120,
         height: 120,

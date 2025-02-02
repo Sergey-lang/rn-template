@@ -1,84 +1,73 @@
-import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {
+    ActivityIndicator,
+    FlatList,
+    RefreshControl,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+} from "react-native";
 import * as React from "react";
 import {NavigationProp, ParamListBase, useNavigation} from "@react-navigation/native";
 import {AppRoutes} from "../../../navigation/types.ts";
 import {getFontFamily} from "../../../tokens/fonts.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Colors} from "../../../tokens/colors.ts";
+import peopleStore from "./people-store.ts";
+import {observer} from "mobx-react-lite";
+import {TextInfo} from "../../../components/Empty/TextInfo.tsx";
+import {Container} from "../../../components/Container/Container.tsx";
 
-const DATA: Array<{ id: string, title: string }> = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Item',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Item',
-    },
-    {
-        id: '586942a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Third Item',
-    },
-    {
-        id: '58694a0f-3da1-471f1-bd96-145571e29d72',
-        title: 'Fourth Item',
-    },
-    {
-        id: '58694a0f-34da1-471f-bd96-145571e29d72',
-        title: '5 Item',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-1455713e29d72',
-        title: '6 Item',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145534713e29d72',
-        title: '7 Item',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571563e29d72',
-        title: '8 Item',
-    },
-];
-
-export const PeopleScreen = () => {
+export const PeopleScreen = observer(() => {
     const navigation: NavigationProp<ParamListBase> = useNavigation();
 
+    const {people, getPeopleAction, loading, error} = peopleStore;
     const [searchText, setSearchText] = useState<string>('');
 
-    const onPress = (id: string) => {
-        navigation.navigate(AppRoutes.PEOPLE_ITEM, {id});
+    const onPress = (id: number) => {
+        navigation.navigate(AppRoutes.PERSONAL_PAGE, {id});
+    }
+    useEffect(() => {
+        getPeopleAction();
+    }, []);
+
+
+    if (error) {
+        return <TextInfo>{error}</TextInfo>
     }
 
     return (
-        <View style={styles.container}>
+        <Container>
             <TextInput
                 style={styles.input}
-                placeholder="Поиск..."
+                placeholder="Search..."
                 value={searchText}
                 onChangeText={setSearchText}
             />
-            <FlatList data={DATA}
-                      keyExtractor={item => item.id}
-                      renderItem={({item}) => {
-                          return (
-                              <TouchableOpacity onPress={() => onPress(item.id)} style={styles.item}>
-                                  <Text style={styles.itemText}>{item.title}</Text>
-                              </TouchableOpacity>
-                          )
-                      }}
-                      ListEmptyComponent={<Text style={styles.emptyText}>Ничего не найдено</Text>}
-            />
-        </View>
+            {loading ? <ActivityIndicator size="large"/> : (
+                <FlatList data={people}
+                          keyExtractor={item => String(item.id)}
+                          renderItem={({item}) => {
+                              return (
+                                  <TouchableOpacity onPress={() => onPress(item.id)} style={styles.item}>
+                                      <Text style={styles.itemText}>{item.name}</Text>
+                                  </TouchableOpacity>
+                              )
+                          }}
+                          ListEmptyComponent={<TextInfo>No results...</TextInfo>}
+                          refreshControl={
+                              <RefreshControl
+                                  refreshing={loading}
+                                  onRefresh={getPeopleAction}
+                              />
+                          }
+                />
+            )}
+        </Container>
     )
-};
+});
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 16,
-        backgroundColor: Colors.white,
-    },
     input: {
         height: 40,
         borderWidth: 1,
@@ -95,11 +84,6 @@ const styles = StyleSheet.create({
     itemText: {
         fontSize: 16,
         fontFamily: getFontFamily('normal'),
-        color: Colors.textPrimary,
-    },
-    emptyText: {
-        textAlign: 'center',
-        marginTop: 20,
         color: Colors.textPrimary,
     },
 });

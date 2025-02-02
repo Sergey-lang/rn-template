@@ -1,8 +1,18 @@
 export const Colors = {
+    /*
+     Light
+    */
     gray: '#ccc',
     graySecondary: '#eee',
     link: '#A97BFF',
     white: '#FAFAFA',
     primary: '#007bff',
-    textPrimary: '#555'
+    bgPrimary: '#FAFAFA',
+    textPrimary: '#555',
+
+    /*
+     Dark
+    */
+    bgPrimaryDark: '#353535',
+    textPrimaryDark: '#ffffff',
 };
