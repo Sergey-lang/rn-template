@@ -9,6 +9,8 @@ import {LoginScreen} from "./src/screens/login/LoginScreen.tsx";
 import {CustomThemeProvider} from './src/provider/theme-provider/CustomThemeProvider.tsx'
 import {IconSearch} from "./src/assets/icons/IconSearch.tsx";
 import {IconProfile} from "./src/assets/icons/IconProfile.tsx";
+import {observer} from "mobx-react-lite";
+import profileStore from "./src/screens/auth/Profile/profile-store.ts";
 
 const Tab = createBottomTabNavigator<MainStackParamList>();
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -28,22 +30,29 @@ const MainTabs = () => {
     );
 }
 
-export default function App() {
+const App = observer(() => {
+    const {profile} = profileStore;
+
     return (
         <NavigationContainer>
             <CustomThemeProvider>
                 <RootStack.Navigator screenOptions={{headerShown: false}}>
-                    <RootStack.Screen
-                        name={AppStacks.MAIN}
-                        component={MainTabs}
-                        options={{headerShown: false}}/>
-                    <RootStack.Screen
-                        name={AppStacks.LOGIN}
-                        component={LoginScreen}
+                    {profile ? (
+                        <RootStack.Screen
+                            name={AppStacks.MAIN}
+                            component={MainTabs}
+                            options={{headerShown: false}}/>
+                    ) : (
+                        <RootStack.Screen
+                            name={AppStacks.LOGIN}
+                            component={LoginScreen}
 
-                        options={{headerShown: false}}/>
+                            options={{headerShown: false}}/>
+                    )}
                 </RootStack.Navigator>
             </CustomThemeProvider>
         </NavigationContainer>
     );
-}
+})
+
+export default App;

@@ -2,7 +2,7 @@ import {makeAutoObservable, runInAction} from "mobx";
 import {getProfile, ProfileType} from "../../api/api.ts";
 
 class ProfileStore {
-    profile?: ProfileType;
+    profile?: ProfileType | null = null;
     loading: boolean = false;
     error: string | null = null;
 
@@ -21,7 +21,7 @@ class ProfileStore {
             });
         } catch (err) {
             runInAction(() => {
-                this.error = "Ошибка загрузки профиля";
+                this.error = "Profile loading error";
             });
         } finally {
             runInAction(() => {
