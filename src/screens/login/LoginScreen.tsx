@@ -4,24 +4,34 @@ import {Colors} from "../../tokens/colors.ts";
 import {TouchableBtn} from "../../components/TouchableBtn/TouchableBtn.tsx";
 import {Container} from "../../components/Container/Container.tsx";
 import profileStore from "../auth/Profile/profile-store.ts";
+import {useTranslation} from "react-i18next";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const LoginScreen = () => {
     const [email, setEmail] = useState('test@mail.com');
     const [password, setPassword] = useState('123456');
+    const {t, i18n} = useTranslation();
+    const [language, setLanguage] = useState(i18n.language);
     const {getProfileAction, loading} = profileStore;
 
     const handleLogin = async () => {
         if (!email.trim() || !password.trim()) {
-            Alert.alert('Error', 'Enter login and password');
+            Alert.alert(t('ERROR'), t('LOGIN_ERROR'));
             return;
         }
 
         try {
             await getProfileAction(1);
-            Alert.alert('Login successfully', `Welcome, ${email}!`);
         } catch (e) {
-            Alert.alert('Some error', 'Please try again later');
+            Alert.alert(t('ERROR'), t('LOGIN_SOME_ERROR'));
         }
+    };
+
+    const changeLanguage = async () => {
+        const newLang = language === "en" ? "ru" : "en";
+        await AsyncStorage.setItem("language", newLang);
+        i18n.changeLanguage(newLang);
+        setLanguage(newLang);
     };
 
     return (
@@ -30,7 +40,7 @@ export const LoginScreen = () => {
                 <>
                     <TextInput
                         style={styles.input}
-                        placeholder="Email"
+                        placeholder={t('EMAIL')}
                         placeholderTextColor="#888"
                         value={email}
                         onChangeText={setEmail}
@@ -39,13 +49,14 @@ export const LoginScreen = () => {
 
                     <TextInput
                         style={styles.input}
-                        placeholder="Password"
+                        placeholder={t('PASSWORD')}
                         placeholderTextColor="#888"
                         value={password}
                         onChangeText={setPassword}
                         secureTextEntry
                     />
-                    <TouchableBtn onPress={handleLogin} buttonText="Login"/>
+                    <TouchableBtn onPress={handleLogin} buttonText={t('LOGIN')}/>
+                    <TouchableBtn onPress={changeLanguage} buttonText={t('CHANGE_LANGUAGE')}/>
                 </>
             )}
         </Container>

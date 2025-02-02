@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator} from "react-native";
+import {Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator} from "react-native";
 import {Colors} from "../../../tokens/colors.ts";
 import {observer} from "mobx-react-lite";
 import profileStore from "./profile-store.ts";

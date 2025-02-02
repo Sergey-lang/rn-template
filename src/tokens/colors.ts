@@ -14,5 +14,5 @@ export const Colors = {
      Dark
     */
     bgPrimaryDark: '#353535',
-    textPrimaryDark: '#ffffff',
+    textPrimaryDark: '#FAFAFA',
 };

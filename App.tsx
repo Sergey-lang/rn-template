@@ -11,6 +11,8 @@ import {IconSearch} from "./src/assets/icons/IconSearch.tsx";
 import {IconProfile} from "./src/assets/icons/IconProfile.tsx";
 import {observer} from "mobx-react-lite";
 import profileStore from "./src/screens/auth/Profile/profile-store.ts";
+import {I18nextProvider} from "react-i18next";
+import i18next from "./src/lang/i18n.ts";
 
 const Tab = createBottomTabNavigator<MainStackParamList>();
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -34,24 +36,28 @@ const App = observer(() => {
     const {profile} = profileStore;
 
     return (
+
         <NavigationContainer>
             <CustomThemeProvider>
-                <RootStack.Navigator screenOptions={{headerShown: false}}>
-                    {profile ? (
-                        <RootStack.Screen
-                            name={AppStacks.MAIN}
-                            component={MainTabs}
-                            options={{headerShown: false}}/>
-                    ) : (
-                        <RootStack.Screen
-                            name={AppStacks.LOGIN}
-                            component={LoginScreen}
+                <I18nextProvider i18n={i18next}>
+                    <RootStack.Navigator screenOptions={{headerShown: false}}>
+                        {profile ? (
+                            <RootStack.Screen
+                                name={AppStacks.MAIN}
+                                component={MainTabs}
+                                options={{headerShown: false}}/>
+                        ) : (
+                            <RootStack.Screen
+                                name={AppStacks.LOGIN}
+                                component={LoginScreen}
 
-                            options={{headerShown: false}}/>
-                    )}
-                </RootStack.Navigator>
+                                options={{headerShown: false}}/>
+                        )}
+                    </RootStack.Navigator>
+                </I18nextProvider>
             </CustomThemeProvider>
         </NavigationContainer>
+
     );
 })
 

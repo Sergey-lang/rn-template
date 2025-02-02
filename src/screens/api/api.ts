@@ -19,7 +19,10 @@ export const getProfile = async (id: number) => {
     return res.data;
 }
 
-export const getPeople = async () => {
-    const res = await axiosInstance.get<ProfileType[]>('/users')
+export const getPosts = async (userId?: string) => {
+    const query = new URLSearchParams({
+        ...(userId && { userId }),
+    });
+    const res = await axiosInstance.get<ProfileType[]>(`/users?${query}`);
     return res.data;
 }

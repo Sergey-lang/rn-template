@@ -1,8 +1,8 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import {getPeople, getProfile, ProfileType} from "../../api/api.ts";
+import {getPosts, getProfile, ProfileType} from "../../api/api.ts";
 
 class PeopleStore {
-    people?: ProfileType[] = [];
+    posts?: ProfileType[] = [];
     selectedPerson?:  ProfileType;
     loading: boolean = false;
     error: string | null = null;
@@ -11,14 +11,14 @@ class PeopleStore {
         makeAutoObservable(this);
     }
 
-    getPeopleAction = async () => {
+    getPeopleAction = async (search?: string) => {
         this.loading = true;
         this.error = null;
 
         try {
-            const data = await getPeople();
+            const data = await getPosts(search);
             runInAction(() => {
-                this.people = data;
+                this.posts = data;
             });
         } catch (err) {
             runInAction(() => {

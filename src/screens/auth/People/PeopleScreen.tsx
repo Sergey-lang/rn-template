@@ -17,19 +17,23 @@ import peopleStore from "./people-store.ts";
 import {observer} from "mobx-react-lite";
 import {TextInfo} from "../../../components/Empty/TextInfo.tsx";
 import {Container} from "../../../components/Container/Container.tsx";
+import {useDebounce} from "../../../lib/useDebounce.ts";
 
 export const PeopleScreen = observer(() => {
     const navigation: NavigationProp<ParamListBase> = useNavigation();
 
-    const {people, getPeopleAction, loading, error} = peopleStore;
+    const {posts, getPeopleAction, loading, error} = peopleStore;
     const [searchText, setSearchText] = useState<string>('');
 
     const onPress = (id: number) => {
         navigation.navigate(AppRoutes.PERSONAL_PAGE, {id});
     }
+
+    const debouncedSearch = useDebounce(searchText, 500)
+
     useEffect(() => {
-        getPeopleAction();
-    }, []);
+        getPeopleAction(String(debouncedSearch));
+    }, [debouncedSearch]);
 
 
     if (error) {
@@ -40,17 +44,17 @@ export const PeopleScreen = observer(() => {
         <Container>
             <TextInput
                 style={styles.input}
-                placeholder="Search..."
+                placeholder="Search by id..."
                 value={searchText}
                 onChangeText={setSearchText}
             />
             {loading ? <ActivityIndicator size="large"/> : (
-                <FlatList data={people}
+                <FlatList data={posts}
                           keyExtractor={item => String(item.id)}
                           renderItem={({item}) => {
                               return (
                                   <TouchableOpacity onPress={() => onPress(item.id)} style={styles.item}>
-                                      <Text style={styles.itemText}>{item.name}</Text>
+                                      <Text style={styles.itemText}>{item.id} - {item.name}</Text>
                                   </TouchableOpacity>
                               )
                           }}
