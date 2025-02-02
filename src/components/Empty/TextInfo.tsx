@@ -1,17 +1,15 @@
-import React, {FC, PropsWithChildren} from 'react';
-import {StyleSheet, Text} from "react-native";
-import {Colors} from "../../tokens/colors.ts";
+import React, { FC, PropsWithChildren } from 'react';
+import { StyleSheet, Text } from 'react-native';
+import { Colors } from '../../tokens';
 
-export const TextInfo: FC<PropsWithChildren> = ({children}) => {
-    return (
-        <Text style={styles.emptyText}>{children}</Text>
-    );
+export const TextInfo: FC<PropsWithChildren> = ({ children }) => {
+  return <Text style={styles.emptyText}>{children}</Text>;
 };
 
 const styles = StyleSheet.create({
-    emptyText: {
-        textAlign: 'center',
-        marginTop: 20,
-        color: Colors.textPrimary,
-    },
+  emptyText: {
+    textAlign: 'center',
+    marginTop: 20,
+    color: Colors.textPrimary,
+  },
 });

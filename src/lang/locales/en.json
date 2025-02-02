@@ -1,9 +1,9 @@
 {
-    "EMAIL": "Email",
-    "ERROR": "Error",
-    "LOGIN_ERROR": "Enter login and password",
-    "LOGIN_SOME_ERROR": "Try login later",
-    "CHANGE_LANGUAGE": "Change language",
-    "PASSWORD": "Password",
-    "LOGIN": "Login"
+  "EMAIL": "Email",
+  "ERROR": "Error",
+  "LOGIN_ERROR": "Enter login and password",
+  "LOGIN_SOME_ERROR": "Try login later",
+  "CHANGE_LANGUAGE": "Change language",
+  "PASSWORD": "Password",
+  "LOGIN": "Login"
 }

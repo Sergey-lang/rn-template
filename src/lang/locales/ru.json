@@ -1,9 +1,9 @@
 {
-    "EMAIL": "Почта",
-    "ERROR": "Ошибка",
-    "LOGIN_ERROR": "Введите логин и пароль",
-    "LOGIN_SOME_ERROR": "Попробуйте позже",
-    "CHANGE_LANGUAGE": "Изменить язык",
-    "PASSWORD": "Пароль",
-    "LOGIN": "Войти"
+  "EMAIL": "Почта",
+  "ERROR": "Ошибка",
+  "LOGIN_ERROR": "Введите логин и пароль",
+  "LOGIN_SOME_ERROR": "Попробуйте позже",
+  "CHANGE_LANGUAGE": "Изменить язык",
+  "PASSWORD": "Пароль",
+  "LOGIN": "Войти"
 }
