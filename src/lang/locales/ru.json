@@ -5,5 +5,8 @@
   "LOGIN_SOME_ERROR": "Попробуйте позже",
   "CHANGE_LANGUAGE": "Изменить язык",
   "PASSWORD": "Пароль",
-  "LOGIN": "Войти"
+  "LOGIN": "Войти",
+  "HELLO": "Привет, {{name}}!",
+  "LOCAL_NOTIFICATION": "Это локальное уведомление",
+  "THEME_SWITCH": "Сменить тему на {{theme}}"
 }

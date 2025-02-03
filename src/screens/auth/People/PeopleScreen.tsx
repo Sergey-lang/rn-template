@@ -5,7 +5,6 @@ import {
   RefreshControl,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
 } from 'react-native';
 import * as React from 'react';
@@ -16,13 +15,17 @@ import peopleStore from './people-store.ts';
 import { observer } from 'mobx-react-lite';
 import { TextInfo } from '../../../components/Empty/TextInfo.tsx';
 import { Container } from '../../../components/Container/Container.tsx';
-import { useDebounce } from '../../../lib/useDebounce.ts';
+import { useDebounce } from '../../../lib/hooks/useDebounce.ts';
 import { useTheme } from '../../../provider/theme-provider/CustomThemeProvider.tsx';
 import { Colors, getFontFamily } from '../../../tokens';
+import {Input} from "../../../components/Input/Input.tsx";
+import NotificationHelper from "../../../lib/notification/notification.ts";
+import {useTranslation} from "react-i18next";
 
 export const PeopleScreen = observer(() => {
   const navigation: NavigationProp<ParamListBase> = useNavigation();
   const { colors } = useTheme();
+  const {t} = useTranslation();
   const { posts, getPeopleAction, loading, error } = peopleStore;
   const [searchText, setSearchText] = useState<string>('');
   const debouncedSearch = useDebounce(searchText, 500);
@@ -31,8 +34,8 @@ export const PeopleScreen = observer(() => {
     navigation.navigate(AppRoutes.PERSONAL_PAGE, { id });
   };
 
-  const onPressShowLocalNotification = () => {
-    // todo: later
+  const onPressShowLocalNotification = (name: string) => {
+    NotificationHelper.displayNotification(t(`HELLO`, {name}), t('LOCAL_NOTIFICATION'));
   };
 
   useEffect(() => {
@@ -45,12 +48,10 @@ export const PeopleScreen = observer(() => {
 
   return (
     <Container>
-      <TextInput
-        style={[styles.input, { color: colors.text }]}
-        placeholderTextColor={colors.text}
-        placeholder="Search by id..."
-        value={searchText}
-        onChangeText={setSearchText}
+      <Input
+          placeholder="Search by id..."
+          value={searchText}
+          onChangeText={setSearchText}
       />
       {loading ? (
         <ActivityIndicator size="large" />
@@ -66,7 +67,7 @@ export const PeopleScreen = observer(() => {
                 </Text>
                 <Button
                   title="Check"
-                  onPress={onPressShowLocalNotification}
+                  onPress={() => onPressShowLocalNotification(item.name)}
                   color={colors.primary}
                   disabled={item.id === 1}
                 />
@@ -82,20 +83,12 @@ export const PeopleScreen = observer(() => {
 });
 
 const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: Colors.gray,
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-  },
   item: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.graySecondary,
+    borderBottomColor: Colors.gray,
   },
   itemText: {
     fontSize: 16,

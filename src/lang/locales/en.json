@@ -5,5 +5,8 @@
   "LOGIN_SOME_ERROR": "Try login later",
   "CHANGE_LANGUAGE": "Change language",
   "PASSWORD": "Password",
-  "LOGIN": "Login"
+  "LOGIN": "Login",
+  "HELLO": "Hello, {{name}}!",
+  "LOCAL_NOTIFICATION": "This is the local notification",
+  "THEME_SWITCH": "Switch theme to {{theme}}"
 }

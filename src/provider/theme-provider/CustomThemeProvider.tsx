@@ -6,9 +6,12 @@ import { Colors } from '../../tokens';
 export type ThemeType = 'light' | 'dark' | 'system';
 
 type ThemeColors = {
+  primary: string;
   background: string;
   text: string;
-  primary: string;
+  textBtn: string;
+  invertedText: string;
+  primaryPlaceholder: string;
 };
 
 interface ThemeContextType {
@@ -21,12 +24,18 @@ const themes = {
   light: {
     background: Colors.bgPrimary,
     text: Colors.textPrimary,
+    textBtn: Colors.textBtnPrimary,
+    invertedText: Colors.textInverted,
     primary: Colors.primary,
+    primaryPlaceholder: Colors.gray,
   },
   dark: {
     background: Colors.bgPrimaryDark,
     text: Colors.textPrimaryDark,
+    textBtn: Colors.textBtnPrimaryDark,
+    invertedText: Colors.textInvertedDark,
     primary: Colors.primaryDark,
+    primaryPlaceholder: Colors.gray,
   },
 };
 
